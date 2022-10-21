@@ -1,5 +1,5 @@
 name: cpp-cmake-mingw-prebuilt-release-actions-workflow
-on: push
+on: workflow_dispatch
   
 jobs:
   build:
