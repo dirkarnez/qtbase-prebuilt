@@ -8,6 +8,14 @@
 #include <QtCore/qt_windows.h>
 #include <QtCore/qnamespace.h>
 
+#ifndef WM_DPICHANGED_AFTERPARENT
+#  define WM_DPICHANGED_AFTERPARENT 0x02e3
+#endif
+
+#ifndef WM_GETDPISCALEDSIZE
+#  define WM_GETDPISCALEDSIZE 0x02E4
+#endif  
+
 #ifndef WM_DWMCOMPOSITIONCHANGED
 #  define WM_DWMCOMPOSITIONCHANGED 0x31E
 #endif
