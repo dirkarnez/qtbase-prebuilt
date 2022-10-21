@@ -1,0 +1,76 @@
+name: cpp-cmake-mingw-prebuilt-release-actions-workflow
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'c*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: windows-2019
+    env:
+      libraryName: qtbase
+      cmakeInstallationPath: qtbase-installation
+      tagName: v6.4.0
+      mingwTargetZip: qtbase-${{ github.ref_name }}-x86_64-posix-seh-rev0-8.1.0.zip
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.tagName }}
+          submodules: true
+        
+      - name: curl PortableGit-2.38.1-64-bit.7z.exe
+        shell: cmd
+        run:  cd /d ${{ github.workspace }} && curl https://github.com/git-for-windows/git/releases/download/v2.38.1.windows.1/PortableGit-2.38.1-64-bit.7z.exe -L --output PortableGit-2.38.1-64-bit.7z.exe && dir && 7z.exe x PortableGit-2.38.1-64-bit.7z.exe -o"${{ github.workspace }}\PortableGit-2.38.1-64-bit"
+       
+      - name: curl python-3.10.8-amd64-portable.zip
+        shell: cmd
+        run:  cd /d ${{ github.workspace }} && curl https://github.com/dirkarnez/python-portable/releases/download/v3.10.8/python-3.10.8-amd64-portable.zip -L --output python-3.10.8-amd64-portable.zip && dir && 7z.exe x python-3.10.8-amd64-portable.zip -o"${{ github.workspace }}\python-3.10.8-amd64-portable"
+              
+      - name: curl strawberry-perl-5.32.1.1-64bit-portable.zip
+        shell: cmd
+        run:  cd /d ${{ github.workspace }} && curl https://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit-portable.zip -L --output strawberry-perl-5.32.1.1-64bit-portable.zip && dir && 7z.exe x strawberry-perl-5.32.1.1-64bit-portable.zip -o"${{ github.workspace }}\strawberry-perl-5.32.1.1-64bit-portable"
+        
+      - name: curl x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z
+        shell: cmd
+        run:  cd /d ${{ github.workspace }} && curl https://github.com/2641797006/c/blob/master/GCC-zip/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z?raw=true -L --output x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z && dir && 7z.exe x x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z
+        
+      - name: curl cmake-3.24.0-windows-x86_64.zip
+        shell: cmd
+        run: cd /d ${{ github.workspace }} && curl https://github.com/Kitware/CMake/releases/download/v3.24.0/cmake-3.24.0-windows-x86_64.zip -L --output cmake-3.24.0-windows-x86_64.zip && dir && 7z.exe x cmake-3.24.0-windows-x86_64.zip
+        
+      - name: set PATH, check mingw version, cmake generate, build and install
+        shell: cmd
+        run: |
+            set PATH=^
+            C:\Windows\System32\WindowsPowerShell\v1.0;^
+            ${{ github.workspace }}\mingw64;^
+            ${{ github.workspace }}\mingw64\bin;^
+            ${{ github.workspace }}\cmake-3.24.0-windows-x86_64\bin;^
+            ${{ github.workspace }}\PortableGit-2.38.1-64-bit;^
+            ${{ github.workspace }}\PortableGit-2.38.1-64-bit\bin;^
+            ${{ github.workspace }}\strawberry-perl-5.32.1.1-64bit-portable\perl\bin;^
+            ${{ github.workspace }}\python-3.10.8-amd64-portable;
+            gcc --version &&^
+            cmake.exe -G "MinGW Makefiles" ^
+            -DCMAKE_BUILD_TYPE=Release ^
+            -DBUILD_SHARED_LIBS=OFF ^
+            -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
+            cd cmake-build && cmake --build . && cmake --install . 
+            
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          directory: "cmake-build/${{ env.cmakeInstallationPath }}"
+          filename: "${{ env.mingwTargetZip }}"
+          
+      - name: Release prebuilt
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "cmake-build/${{ env.cmakeInstallationPath }}/${{ env.mingwTargetZip }}"
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
