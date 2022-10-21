@@ -16,11 +16,14 @@ jobs:
       tagName: v6.4.0
       mingwTargetZip: qtbase-${{ github.ref_name }}-x86_64-posix-seh-rev0-8.1.0.zip
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ env.tagName }}
-          submodules: true
+      - name: git clone
+        shell: cmd
+        run: |
+          git config --global user.name "dirkarnez" &&^
+          git config --global user.email "smalldirkalex@gmail.com" &&^
+          git clone --recursive https://dirkarnez:${{ secrets.GH_PAT }}@github.com/dirkarnez/qtbase-prebuilt.git && cd qtbase-prebuilt && git checkout ${{ env.tagName }} &&^
+          git fetch origin &&^
+          git cherry-pick b8fe70b4dc84c66586dbd14dbf1878905dc3e24f
         
       - name: curl PortableGit-2.38.1-64-bit.7z.exe
         shell: cmd
@@ -55,6 +58,7 @@ jobs:
             ${{ github.workspace }}\strawberry-perl-5.32.1.1-64bit-portable\perl\bin;^
             ${{ github.workspace }}\python-3.10.8-amd64-portable;
             gcc --version &&^
+            cd qtbase-prebuilt &&^
             cmake.exe -G "MinGW Makefiles" ^
             -DCMAKE_BUILD_TYPE=Release ^
             -DBUILD_SHARED_LIBS=OFF ^
@@ -65,12 +69,12 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          directory: "cmake-build/${{ env.cmakeInstallationPath }}"
+          directory: "qtbase-prebuilt/cmake-build/${{ env.cmakeInstallationPath }}"
           filename: "${{ env.mingwTargetZip }}"
           
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "cmake-build/${{ env.cmakeInstallationPath }}/${{ env.mingwTargetZip }}"
+          artifacts: "qtbase-prebuilt/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.mingwTargetZip }}"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
