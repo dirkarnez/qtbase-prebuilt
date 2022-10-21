@@ -18,7 +18,8 @@ jobs:
           git config --global user.email "smalldirkalex@gmail.com" &&^
           git clone --recursive https://dirkarnez:${{ secrets.GH_PAT }}@github.com/dirkarnez/qtbase-prebuilt.git && cd qtbase-prebuilt && git checkout ${{ env.tagName }} &&^
           git fetch origin &&^
-          git cherry-pick b8fe70b4dc84c66586dbd14dbf1878905dc3e24f
+          git cherry-pick b8fe70b4dc84c66586dbd14dbf1878905dc3e24f &&^
+          git cherry-pick b9700a899e49366837fedcf04a58371500fb3357
         
       - name: curl PortableGit-2.38.1-64-bit.7z.exe
         shell: cmd
