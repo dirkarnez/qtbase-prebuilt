@@ -54,7 +54,8 @@
 #include <comdef.h>
 #include <dbt.h>
 #include <wtsapi32.h>
-#include <shellscalingapi.h>
+
+// #include <shellscalingapi.h>
 
 QT_BEGIN_NAMESPACE
 
