@@ -9,7 +9,7 @@ jobs:
       libraryName: qtbase
       cmakeInstallationPath: qtbase-installation
       tagName: v6.4.3
-      mingwTargetZip: qtbase-${{ github.ref_name }}-x86_64-posix-seh-rev0-8.1.0.zip
+      mingwTargetZip: qtbase-${{ github.ref_name }}-mingw64-x86_64-posix-seh-rev0-8.1.0.zip
     steps:
 #       - name: git clone
 #         shell: cmd
