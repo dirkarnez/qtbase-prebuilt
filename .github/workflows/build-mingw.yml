@@ -8,19 +8,31 @@ jobs:
     env:
       libraryName: qtbase
       cmakeInstallationPath: qtbase-installation
-      tagName: v6.4.0
+      tagName: v6.4.3
       mingwTargetZip: qtbase-${{ github.ref_name }}-x86_64-posix-seh-rev0-8.1.0.zip
     steps:
-      - name: git clone
-        shell: cmd
-        run: |
-          git config --global user.name "dirkarnez" &&^
-          git config --global user.email "smalldirkalex@gmail.com" &&^
-          git clone --recursive https://dirkarnez:${{ secrets.GH_PAT }}@github.com/dirkarnez/qtbase-prebuilt.git && cd qtbase-prebuilt && git checkout ${{ env.tagName }} &&^
-          git fetch origin &&^
-          git cherry-pick b8fe70b4dc84c66586dbd14dbf1878905dc3e24f &&^
-          git cherry-pick b9700a899e49366837fedcf04a58371500fb3357
-        
+#       - name: git clone
+#         shell: cmd
+#         run: |
+#           git config --global user.name "dirkarnez" &&^
+#           git config --global user.email "smalldirkalex@gmail.com" &&^
+#           git clone --recursive https://dirkarnez:${{ secrets.GH_PAT }}@github.com.git && cd qtbase-prebuilt && git checkout ${{ env.tagName }} &&^
+#           git fetch origin &&^
+#           git cherry-pick b8fe70b4dc84c66586dbd14dbf1878905dc3e24f &&^
+#           git cherry-pick b9700a899e49366837fedcf04a58371500fb3357
+
+      - uses: actions/checkout@v3
+        with:
+          repository: qt/qtbase
+          path: qt_qtbase
+          submodules: true
+          ref: ${{ env.tagName }}
+
+      - uses: actions/checkout@v3
+        with:
+          repository: dirkarnez/qtbase-prebuilt
+          path: dirkarnez_qtbase-prebuilt
+          
       - name: curl PortableGit-2.38.1-64-bit.7z.exe
         shell: cmd
         run:  cd /d ${{ github.workspace }} && curl https://github.com/git-for-windows/git/releases/download/v2.38.1.windows.1/PortableGit-2.38.1-64-bit.7z.exe -L --output PortableGit-2.38.1-64-bit.7z.exe && dir && 7z.exe x PortableGit-2.38.1-64-bit.7z.exe -o"${{ github.workspace }}\PortableGit-2.38.1-64-bit"
@@ -54,7 +66,7 @@ jobs:
             ${{ github.workspace }}\strawberry-perl-5.32.1.1-64bit-portable\perl\bin;^
             ${{ github.workspace }}\python-3.10.8-amd64-portable;
             gcc --version &&^
-            cd qtbase-prebuilt &&^
+            cd qt_qtbase &&^
             cmake.exe -G "MinGW Makefiles" ^
             -DCMAKE_BUILD_TYPE=Release ^
             -DBUILD_SHARED_LIBS=OFF ^
@@ -65,12 +77,12 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          directory: "qtbase-prebuilt/cmake-build/${{ env.cmakeInstallationPath }}"
+          directory: "qt_qtbase/cmake-build/${{ env.cmakeInstallationPath }}"
           filename: "${{ env.mingwTargetZip }}"
           
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "qtbase-prebuilt/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.mingwTargetZip }}"
+          artifacts: "qt_qtbase/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.mingwTargetZip }}"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
