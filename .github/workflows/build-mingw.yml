@@ -4,7 +4,7 @@ on: workflow_dispatch
 jobs:
   build:
     name: Create Release
-    runs-on: windows-2019
+    runs-on: windows-latest
     env:
       libraryName: qtbase
       cmakeInstallationPath: qtbase-installation
