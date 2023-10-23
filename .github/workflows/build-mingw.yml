@@ -47,9 +47,9 @@ jobs:
         shell: cmd
         run:  cd /d ${{ github.workspace }} && curl https://github.com/dirkarnez/python-portable/releases/download/v3.10.8/python-3.10.8-amd64-portable.zip -L --output python-3.10.8-amd64-portable.zip && dir && 7z.exe x python-3.10.8-amd64-portable.zip -o"${{ github.workspace }}\python-3.10.8-amd64-portable"
               
-      - name: curl strawberry-perl-5.32.1.1-64bit-portable.zip
-        shell: cmd
-        run:  cd /d ${{ github.workspace }} && curl https://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit-portable.zip -L --output strawberry-perl-5.32.1.1-64bit-portable.zip && dir && 7z.exe x strawberry-perl-5.32.1.1-64bit-portable.zip -o"${{ github.workspace }}\strawberry-perl-5.32.1.1-64bit-portable"
+      # - name: curl strawberry-perl-5.32.1.1-64bit-portable.zip
+      #   shell: cmd
+      #   run:  cd /d ${{ github.workspace }} && curl https://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit-portable.zip -L --output strawberry-perl-5.32.1.1-64bit-portable.zip && dir && 7z.exe x strawberry-perl-5.32.1.1-64bit-portable.zip -o"${{ github.workspace }}\strawberry-perl-5.32.1.1-64bit-portable"
         
       - name: curl x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z
         shell: cmd
@@ -73,6 +73,7 @@ jobs:
         working-directory: qt_qtbase/cmake-build
         run:  |
           set PATH=^
+          C:\Windows\System32;^
           C:\Windows\System32\WindowsPowerShell\v1.0;^
           ${{ github.workspace }}\ninja-win;^
           ${{ github.workspace }}\mingw64;^
@@ -80,7 +81,6 @@ jobs:
           ${{ github.workspace }}\cmake-3.24.0-windows-x86_64\bin;^
           ${{ github.workspace }}\PortableGit-2.38.1-64-bit;^
           ${{ github.workspace }}\PortableGit-2.38.1-64-bit\bin;^
-          ${{ github.workspace }}\strawberry-perl-5.32.1.1-64bit-portable\perl\bin;^
           ${{ github.workspace }}\python-3.10.8-amd64-portable;
           gcc --version &&^
           ..\configure -opensource -confirm-license -no-pch -debug -nomake tests -nomake examples -prefix '${{ runner.temp }}'/install_dir -qt-sqlite -qt-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc
