@@ -59,7 +59,8 @@ jobs:
         shell: cmd
         run: cd /d ${{ github.workspace }} && curl https://github.com/Kitware/CMake/releases/download/v3.24.0/cmake-3.24.0-windows-x86_64.zip -L --output cmake-3.24.0-windows-x86_64.zip && dir && 7z.exe x cmake-3.24.0-windows-x86_64.zip
 
-      - run: |
+      - shell: cmd
+        run: |
           curl https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip -L -O &&^
           7z x ninja-win.zip -o"ninja-win"
           
