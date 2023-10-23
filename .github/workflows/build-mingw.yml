@@ -29,7 +29,6 @@ jobs:
       libraryName: qtbase
       cmakeInstallationPath: qtbase-installation
       tagName: v6.6.0
-      mingwTargetZip: qtbase-${{ github.ref_name }}-mingw64-x86_64-posix-seh-rev0-8.1.0.zip
     steps:
 #       - name: git clone
 #         shell: cmd
@@ -44,7 +43,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: qt/qtbase
-          path: qt_qtbase
+          path: ${{ env.libraryName }}
           submodules: true
           ref: ${{ env.tagName }}
 
@@ -83,11 +82,11 @@ jobs:
           
       - name: make build directory
         run:  mkdir cmake-build
-        working-directory: qt_qtbase
+        working-directory: ${{ env.libraryName }}
         
       - name: configure
         shell: cmd
-        working-directory: qt_qtbase/cmake-build
+        working-directory: ${{ env.libraryName }}/cmake-build
         run:  |
           set PATH=^
           C:\Windows\System32;^
@@ -100,7 +99,8 @@ jobs:
           ${{ github.workspace }}\PortableGit-2.38.1-64-bit\bin;^
           ${{ github.workspace }}\python-3.10.8-amd64-portable;
           gcc --version &&^
-          ..\configure -opensource -confirm-license -no-pch -debug -nomake tests -nomake examples -prefix '${{ runner.temp }}'/install_dir -qt-sqlite -qt-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc
+          ..\configure -opensource -confirm-license -no-pch -debug -nomake tests -nomake examples -prefix ${{ env.cmakeInstallationPath }} -qt-sqlite -qt-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc &&^
+          cmake --build . --parallel && cmake --install .
         
       # - name: set PATH, check mingw version, cmake generate, build and install
       #   shell: cmd
@@ -123,7 +123,7 @@ jobs:
       #       -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
       #       cd cmake-build && cmake --build . && cmake --install . 
       - name: print logfiles and other info in case of failure
-        working-directory: qt_qtbase/cmake-build
+        working-directory: ${{ env.libraryName }}/cmake-build
         if: ${{ failure() }}
         run: |
           echo ==== CMakeError.log ====
@@ -132,17 +132,18 @@ jobs:
           type CMakeFiles/CMakeOutput.log
           echo ==== CMakeCache.txt ====
           type CMakeCache.txt
-        
+
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          directory: "qt_qtbase/cmake-build/${{ env.cmakeInstallationPath }}"
-          filename: "${{ env.mingwTargetZip }}"
-          
+          directory: "${{ env.libraryName }}/cmake-build/${{ env.cmakeInstallationPath }}"
+          filename: "${{ env.libraryName }}-${{ github.ref_name }}-${{ matrix.compiler.name }}.zip"
+        
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "qt_qtbase/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.mingwTargetZip }}"
+          artifacts: "${{ env.libraryName }}/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.libraryName }}-${{ github.ref_name }}-${{ matrix.compiler.name }}.zip"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
+  
