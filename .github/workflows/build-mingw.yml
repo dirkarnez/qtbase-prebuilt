@@ -59,6 +59,10 @@ jobs:
         shell: cmd
         run: cd /d ${{ github.workspace }} && curl https://github.com/Kitware/CMake/releases/download/v3.24.0/cmake-3.24.0-windows-x86_64.zip -L --output cmake-3.24.0-windows-x86_64.zip && dir && 7z.exe x cmake-3.24.0-windows-x86_64.zip
 
+      - run: |
+          curl https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip -L -O &&^
+          7z x ninja-win.zip -o"ninja-win"
+          
       - name: make build directory
         run:  mkdir cmake-build
         working-directory: qt_qtbase
@@ -69,6 +73,7 @@ jobs:
         run:  |
           set PATH=^
           C:\Windows\System32\WindowsPowerShell\v1.0;^
+          ${{ github.workspace }}\ninja-win;^
           ${{ github.workspace }}\mingw64;^
           ${{ github.workspace }}\mingw64\bin;^
           ${{ github.workspace }}\cmake-3.24.0-windows-x86_64\bin;^
@@ -93,14 +98,23 @@ jobs:
       #       ${{ github.workspace }}\python-3.10.8-amd64-portable;
       #       gcc --version &&^
       #       cd  &&^
-            
       #       cmake.exe -G "MinGW Makefiles" ^
       #       -DCMAKE_BUILD_TYPE=Release ^
       #       -DBUILD_SHARED_LIBS=OFF ^
       #       -DCMAKE_CXX_FLAGS="-DQ_CC_MINGW=1" ^
       #       -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
       #       cd cmake-build && cmake --build . && cmake --install . 
-            
+      - name: print logfiles and other info in case of failure
+        if: ${{ failure() }}
+        run: |
+          echo ==== CMakeOutput.log ====
+          cat build/CMakeFiles/CMakeOutput.log
+          echo
+          echo ==== CMakeError.log ====
+          cat build/CMakeFiles/CMakeError.log
+          echo ==== CMakeCache.txt ====
+          cat build/CMakeCache.txt
+        
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
