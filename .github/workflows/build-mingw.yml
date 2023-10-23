@@ -106,15 +106,16 @@ jobs:
       #       -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
       #       cd cmake-build && cmake --build . && cmake --install . 
       - name: print logfiles and other info in case of failure
+        working-directory: qt_qtbase/cmake-build
         if: ${{ failure() }}
         run: |
           echo ==== CMakeOutput.log ====
-          cat build/CMakeFiles/CMakeOutput.log
+          type CMakeFiles/CMakeOutput.log
           echo
           echo ==== CMakeError.log ====
-          cat build/CMakeFiles/CMakeError.log
+          type CMakeFiles/CMakeError.log
           echo ==== CMakeCache.txt ====
-          cat build/CMakeCache.txt
+          cat CMakeCache.txt
         
       - name: Archive Release
         uses: thedoctor0/zip-release@master
