@@ -109,13 +109,12 @@ jobs:
         working-directory: qt_qtbase/cmake-build
         if: ${{ failure() }}
         run: |
-          echo ==== CMakeOutput.log ====
-          type CMakeFiles/CMakeOutput.log
-          echo
           echo ==== CMakeError.log ====
           type CMakeFiles/CMakeError.log
+          echo ==== CMakeOutput.log ====
+          type CMakeFiles/CMakeOutput.log
           echo ==== CMakeCache.txt ====
-          cat CMakeCache.txt
+          type CMakeCache.txt
         
       - name: Archive Release
         uses: thedoctor0/zip-release@master
