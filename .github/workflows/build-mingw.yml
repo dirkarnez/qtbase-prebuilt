@@ -77,6 +77,12 @@ jobs:
 
       - shell: cmd
         run: |
+          cd /d "${{ github.workspace }}\cmake-3.24.0-windows-x86_64\share\cmake-3.24\Modules\" &&^
+          del /f FindOpenSSL.cmake &&^
+          dir
+        
+      - shell: cmd
+        run: |
           curl https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip -L -O &&^
           7z x ninja-win.zip -o"ninja-win"
           
@@ -99,7 +105,7 @@ jobs:
           ${{ github.workspace }}\PortableGit-2.38.1-64-bit\bin;^
           ${{ github.workspace }}\python-3.10.8-amd64-portable;
           gcc --version &&^
-          ..\configure -opensource -confirm-license -no-pch -debug -nomake tests -nomake examples -prefix ${{ env.cmakeInstallationPath }} -qt-sqlite -qt-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc &&^
+          ..\configure -opensource -confirm-license -no-pch -openssl no  -debug -nomake tests -nomake examples -prefix ${{ env.cmakeInstallationPath }} -qt-sqlite -qt-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc &&^
           cmake --build . --parallel && cmake --install .
         
       # - name: set PATH, check mingw version, cmake generate, build and install
