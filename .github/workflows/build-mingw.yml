@@ -105,7 +105,7 @@ jobs:
           ${{ github.workspace }}\PortableGit-2.38.1-64-bit\bin;^
           ${{ github.workspace }}\python-3.10.8-amd64-portable;
           gcc --version &&^
-          ..\configure -opensource -confirm-license -no-pch -openssl no  -debug -nomake tests -nomake examples -prefix ${{ env.cmakeInstallationPath }} -qt-sqlite -qt-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc &&^
+          ..\configure -opensource -confirm-license -static -no-pch -openssl no  -debug -nomake tests -nomake examples -prefix ${{ env.cmakeInstallationPath }} -qt-sqlite -qt-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc &&^
           cmake --build . --parallel && cmake --install .
         
       # - name: set PATH, check mingw version, cmake generate, build and install
