@@ -5,6 +5,10 @@ on:
     tags:
       - '*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
 permissions:
     contents: write
 
@@ -13,10 +17,10 @@ jobs:
     strategy:
       matrix:
         compiler:
-        - {
-            name: "x86_64-8.1.0-release-posix-seh-rt_v6-rev0",
-            url: "https://github.com/dirkarnez/cpp-tools/raw/main/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z"
-          }
+        # - {
+        #     name: "x86_64-8.1.0-release-posix-seh-rt_v6-rev0",
+        #     url: "https://github.com/dirkarnez/cpp-tools/raw/main/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z"
+        #   }
         - {
             name: "winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1",
             url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.2.0-12.0.1-9.0.0-r1/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1.zip"
