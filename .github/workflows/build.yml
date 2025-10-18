@@ -125,7 +125,7 @@ jobs:
           gcc --version &&^
           cd ${{ env.libraryName }} &&^
           .\configure -h &&^
-          .\configure -opensource -confirm-license -static -no-pch -openssl no  -debug -nomake tests -nomake examples -prefix ${{ env.cmakeInstallationPath }} -qt-sqlite -no-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc &&^
+          .\configure -opensource -confirm-license -static -no-pch -no-openssl -schannel -release -nomake tests -nomake examples -prefix ${{ env.cmakeInstallationPath }} -qt-sqlite -no-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc &&^
           cmake.exe -LH -G"MinGW Makefiles" ^
           -DCMAKE_BUILD_TYPE=Release ^
           -DBUILD_SHARED_LIBS=OFF ^
