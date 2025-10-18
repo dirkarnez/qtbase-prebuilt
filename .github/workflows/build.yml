@@ -128,7 +128,40 @@ jobs:
           gcc --version &&^
           cd ${{ env.libraryName }} &&^
           .\configure.bat -h &&^
-          .\configure.bat -opensource -confirm-license -static -no-pch -no-openssl -schannel -release -nomake tests -nomake examples -prefix "${{ env.cmakeInstallationPath }}" -qt-sqlite -no-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc &&^
+          .\configure.bat ^
+          -opensource ^
+          -confirm-license ^
+          -platform win32-g++ ^
+          -static ^
+          -static-runtime ^
+          -gui ^
+          -widgets ^
+          -qt-pcre ^
+          -no-pch ^
+          -no-openssl ^
+          -schannel ^
+          -release ^
+          -nomake tests ^
+          -nomake examples ^
+          -prefix "${{ env.cmakeInstallationPath }}" ^
+          -qt-sqlite ^
+          -no-gif ^
+          -no-icu ^
+          -no-pch ^
+          -no-opengl ^
+          -no-dbus ^
+          -no-accessibility ^
+          -no-feature-androiddeployqt ^
+          -no-feature-printsupport ^
+          -no-feature-sql ^
+          -qt-zlib ^
+          -qt-freetype ^
+          -qt-libpng ^
+          -qt-libjpeg ^
+          -qt-harfbuzz ^
+          -no-feature-sql-psql ^
+          -no-feature-sql-mysql ^
+          -no-feature-sql-odbc &&^
           cmake.exe -LH -G"MinGW Makefiles" ^
           -DCMAKE_BUILD_TYPE=Release ^
           -DBUILD_SHARED_LIBS=OFF ^
