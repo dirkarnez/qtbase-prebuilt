@@ -9,6 +9,9 @@ Prebuilt of [qt/qtbase: Qt Base (Core, Gui, Widgets, Network, ...)](https://gith
 - [Building a static Qt for Windows using MinGW - Qt Wiki](https://wiki.qt.io/Building_a_static_Qt_for_Windows_using_MinGW)
 - [CMake/Utilities/Release/win/qtbase-6.3.0-win-msvc.cmake at 36e888d51eb806891db1b68e6fdd824fd526b468 · microsoft/CMake](https://github.com/microsoft/CMake/blob/36e888d51eb806891db1b68e6fdd824fd526b468/Utilities/Release/win/qtbase-6.3.0-win-msvc.cmake#L26)
 - [Code search results](https://github.com/search?q=qtbase+configure.bat+-opensource+-confirm-license+&type=code)
+- [Qt for Windows - Building from Source | Qt 6.10](https://doc.qt.io/qt-6/windows-building.html#compilers)
+
+
 
 ### Playground
 - [dirkarnez/qt6-playground](https://github.com/dirkarnez/qt6-playground)
