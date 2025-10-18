@@ -155,6 +155,8 @@ jobs:
           -no-openssl ^
           -schannel ^
           -release ^
+          -make libs ^
+          -nomake tools ^
           -nomake tests ^
           -nomake examples ^
           -prefix "${{ env.cmakeInstallationPath }}" ^
