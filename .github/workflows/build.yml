@@ -124,6 +124,7 @@ jobs:
           set CD_LINUX=%CD:\=/%
           gcc --version &&^
           cd ${{ env.libraryName }} &&^
+          .\configure -h &&^
           .\configure -opensource -confirm-license -static -no-pch -openssl no  -debug -nomake tests -nomake examples -prefix ${{ env.cmakeInstallationPath }} -qt-sqlite -qt-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc &&^
           cmake.exe -LH -G"MinGW Makefiles" ^
           -DCMAKE_BUILD_TYPE=Release ^
@@ -131,7 +132,6 @@ jobs:
           -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
           cd cmake-build && ( cmake --build . --parallel --config Release && cmake --install . && cd .. && cmake.exe -LH -G"MinGW Makefiles" -B./cmake-build > "cmake-build\${{ env.cmakeInstallationPath }}\cmake-lh-export.txt" || type .\CMakeFiles\CMakeError.log )
 
-            
   # -DOpenSSL_DIR="%CD_LINUX%/openssl-v3.1.3-x86_64-8.1.0-release-posix-seh-rt_v6-rev0" ^
   # -DZLIB_ROOT="%CD_LINUX%/zlib-v1.2.13-mingw64-x86_64-posix-seh-rev0-8.1.0" ^
   # -DZLIB_USE_STATIC_LIBS=ON ^
