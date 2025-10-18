@@ -106,7 +106,10 @@ jobs:
       #       -DBUILD_SHARED_LIBS=OFF ^
       #       -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
       #       cd cmake-build && cmake --build . --config Release && cmake --install . 
-            
+
+      # .\configure -h &&^
+      # .\configure -opensource -confirm-license -static -no-pch -no-openssl -schannel -release -nomake tests -nomake examples -prefix ${{ env.cmakeInstallationPath }} -qt-sqlite -no-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc &&^
+           
       - name: set PATH, check mingw version, cmake generate, build and install
         if: ${{ matrix.compiler.url }}
         shell: cmd
@@ -124,8 +127,7 @@ jobs:
           set CD_LINUX=%CD:\=/%
           gcc --version &&^
           cd ${{ env.libraryName }} &&^
-          .\configure -h &&^
-          .\configure -opensource -confirm-license -static -no-pch -no-openssl -schannel -release -nomake tests -nomake examples -prefix ${{ env.cmakeInstallationPath }} -qt-sqlite -no-pcre -qt-zlib -qt-freetype -qt-libpng -qt-libjpeg -qt-harfbuzz -no-feature-sql-psql -no-feature-sql-mysql -no-feature-sql-odbc &&^
+          .\configure.bat -h &&^
           cmake.exe -LH -G"MinGW Makefiles" ^
           -DCMAKE_BUILD_TYPE=Release ^
           -DBUILD_SHARED_LIBS=OFF ^
