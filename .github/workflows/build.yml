@@ -175,7 +175,9 @@ jobs:
           -qt-harfbuzz ^
           -no-feature-sql-psql ^
           -no-feature-sql-mysql ^
-          -no-feature-sql-odbc &&^
+          -no-feature-sql-odbc ^
+          -skip-examples ^
+          -skip-tests &&^
           cmake.exe -LH -G"MinGW Makefiles" ^
           -DCMAKE_BUILD_TYPE=Release ^
           -DBUILD_SHARED_LIBS=OFF ^
