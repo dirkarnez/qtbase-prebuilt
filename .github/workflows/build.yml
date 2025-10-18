@@ -36,12 +36,17 @@ jobs:
       tagName: v6.10.0
     steps:
     
-      - uses: actions/checkout@v4
-        with:
-          repository: qt/qtbase
-          ref: ${{ env.tagName }}
-          path: ${{ env.libraryName }}
-          submodules: true
+      # - uses: actions/checkout@v4
+      #   with:
+      #     repository: qt/qtbase
+      #     ref: ${{ env.tagName }}
+      #     path: ${{ env.libraryName }}
+      #     submodules: true
+
+      - shell: cmd
+        run: |
+          curl https://download.qt.io/official_releases/qt/6.10/6.10.0/submodules/qtbase-everywhere-src-6.10.0.zip -L -O &&^
+          7z x qtbase-everywhere-src-6.10.0.zip -o"${{ env.libraryName }}"
           
       - name: download compiler
         if: ${{  matrix.compiler.url }}
