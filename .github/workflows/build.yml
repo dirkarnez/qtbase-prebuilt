@@ -21,10 +21,14 @@ jobs:
         #     name: "x86_64-8.1.0-release-posix-seh-rt_v6-rev0",
         #     url: "https://github.com/dirkarnez/cpp-tools/raw/main/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z"
         #   }
+        # - {
+        #     name: "winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1",
+        #     url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.2.0-12.0.1-9.0.0-r1/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1.zip"
+        #   }
         - {
-            name: "winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1",
-            url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.2.0-12.0.1-9.0.0-r1/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1.zip"
-          }
+          name: "winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2.zip",
+          url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/15.2.0posix-13.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2.zip"
+        }
         # - {
         #     name: "msvc2019"
         #   }
@@ -73,6 +77,7 @@ jobs:
         run: |
           curl https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip -L -O &&^
           7z x ninja-win.zip -o"ninja-win"
+          
       # - shell: cmd
       #   run: |
       #     cd /d "${{ github.workspace }}\cmake-3.24.0-windows-x86_64\share\cmake-3.24\Modules\" &&^
