@@ -1,8 +1,8 @@
 name: cpp-cmake-mingw-prebuilt-release-actions-workflow
 on:
-  push:
-    paths-ignore:
-      - 'README.md'
+  # push:
+  #   paths-ignore:
+  #     - 'README.md'
     # # Sequence of patterns matched against refs/tags
     # tags:
     #   - '*' # Push events to matching v*, i.e. v1.0, v20.15.10
@@ -28,8 +28,8 @@ jobs:
         #     url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.2.0-12.0.1-9.0.0-r1/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1.zip"
         #   }
         - {
-          name: "winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2.zip",
-          url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/15.2.0posix-13.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-15.2.0-mingw-w64ucrt-13.0.0-r2.zip"
+          name: "13.1.0-202407240918mingw1310.7z",
+          url: "https://download.qt.io/online/qtsdkrepository/windows_x86/desktop/tools_mingw1310/qt.tools.win64_mingw1310/13.1.0-202407240918mingw1310.7z"
         }
         # - {
         #     name: "msvc2019"
