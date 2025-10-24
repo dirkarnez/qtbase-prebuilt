@@ -15,7 +15,7 @@ set PATH=^
 %DOWNLOADS_DIR%\13.1.0-202407240918mingw1310\Tools\mingw1310_64;^
 %DOWNLOADS_DIR%\13.1.0-202407240918mingw1310\Tools\mingw1310_64\bin;^
 %DOWNLOADS_DIR%\ninja-win;^
-%DOWNLOADS_DIR%\cmake-3.29.3-windows-x86_64\bin;
+%DOWNLOADS_DIR%\cmake-3.29.3-windows-x86_64\cmake-3.29.3-windows-x86_64\bin;
 
 set QT_VERSION=6.10.0
 set QT_VERSION_COARSE=6.10
